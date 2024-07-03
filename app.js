@@ -6,6 +6,8 @@ import xss from "xss-clean";
 import hpp from "hpp";
 import cors from "cors";
 
+// import routes 
+import blockRoutes from "./routes/blockRoutes.js";
 
 const app = express();
 
@@ -39,6 +41,9 @@ app.use(xss());
 
 // Prevent parameter pollution
 app.use(hpp());
+
+// routes path define here 
+app.use("/api/v1/block", blockRoutes);
 
 
 export default app;
