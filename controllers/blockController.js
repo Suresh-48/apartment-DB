@@ -56,14 +56,6 @@ export async function updateBlock(req, res, next) {
   try {
     const { blockId, blockName, isActive, createdBy } = req.body;
 
-    // Check if blockId or blockName are missing
-    if (!blockId || !blockName) {
-      const errors = {};
-      if (!blockId) errors.blockId = "Block Id is required.";
-      if (!blockName) errors.blockName = "Block Name is required.";
-      return res.status(400).json({ error: "Validation Error", errors });
-    }
-
     // Find and update the block by blockId
     const updatedBlockData = await Block.findByIdAndUpdate(
       req.params.id,
@@ -112,7 +104,7 @@ export async function deleteApartmentBlocks(req, res, next) {
     const blocksData = await Block.findById(id);
 
     if (!blocksData) {
-      return res.status(404).json({ error: "Block not found." });
+      return res.status(404).json({ error: "Block Id not found." });
     } else {
       const deleteBlockData = await Block.findByIdAndDelete(id);
       return res.status(200).json({
