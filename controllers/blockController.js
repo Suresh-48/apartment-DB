@@ -117,5 +117,25 @@ export async function deleteApartmentBlocks(req, res, next) {
   }
 }
 
-export const getOneBlock = getOne(Block);
+export async function getOneBlock(req, res, next){
+    try{
+        const id = req.params.id;
+
+        const blocksData = await Block.findById(id);
+    
+        if (!blocksData) {
+          return res.status(404).json({ error: "Block Id not found." });
+        } else {
+          const getData = await Block.findById(id);
+          return res.status(200).json({
+            status: true,
+            message: "Get Blocks Details Successfully",
+            data: getData,
+          });
+        }
+    }catch(err){
+        next(err);
+    }
+}
+
 export const getAllBlock = getAll(Block);
