@@ -8,6 +8,7 @@ import cors from "cors";
 
 // import routes 
 import blockRoutes from "./routes/blockRoutes.js";
+import flatRoutes from "./routes/flatRoutes.js";
 
 const app = express();
 

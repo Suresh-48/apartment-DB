@@ -12,7 +12,7 @@ blockId:{
     required: [true, "Block Id is Required"],
     ref: "Block"
 },
-blockName:{
+flatName:{
     type: String,
     required: [true, "Block Name is Required"]
 },
