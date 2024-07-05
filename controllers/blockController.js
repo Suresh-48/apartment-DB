@@ -54,7 +54,7 @@ export async function createBlocks(req, res, next) {
 
 export async function updateBlock(req, res, next) {
   try {
-    const { blockId, blockName, isActive, createdBy } = req.body;
+    const { blockName, isActive, createdBy } = req.body;
 
     // Find and update the block by blockId
     const updatedBlockData = await Block.findByIdAndUpdate(
