@@ -7,8 +7,10 @@ import hpp from "hpp";
 import cors from "cors";
 
 // import routes 
+// import userRoutes from "./routes/userRoutes.js";
 import blockRoutes from "./routes/blockRoutes.js";
 import flatRoutes from "./routes/flatRoutes.js";
+
 
 const app = express();
 
@@ -44,7 +46,9 @@ app.use(xss());
 app.use(hpp());
 
 // routes path define here 
+// app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/block", blockRoutes);
+app.use("/api/v1/flat", flatRoutes);
 
 
 export default app;
