@@ -1,4 +1,6 @@
 import Flat from "../models/flatModal.js";
+import {getAll} from "../controllers/baseController.js";
+import moment from "moment";
 
 export async function createFlat(req, res, next){
     try {
@@ -57,7 +59,7 @@ export async function createFlat(req, res, next){
             message: errorMessage,
           });
         }
-        next(err);
+        next(error);
       }
 }
 
@@ -96,7 +98,7 @@ export async function updateFlat(req, res, next) {
                 updateAt: updateAt,
           };
     
-          const updatedFlatData = await Flat.findByIdAndUpdate(data.flatId, editData, {
+          const updatedFlatData = await Flat.findByIdAndUpdate(req.params.id, editData, {
             new: true,
             runValidators: true,
           });
