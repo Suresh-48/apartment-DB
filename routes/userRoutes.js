@@ -5,5 +5,6 @@ import {signup,validateOtp,createUserCredential} from "../controllers/userContro
 
 router.route("/signup").post(signup);
 
+router.route("/validate/otp").patch(validateOtp);
 
 export default router;

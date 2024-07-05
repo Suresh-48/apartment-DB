@@ -179,3 +179,48 @@ export async function signup(req, res, next) {
     next(error);
   }
 }
+
+export async function validateOtp(req, res, next) {
+  try {
+    const data = req.body;
+
+    if (!data.userId || !data.otp) {
+      return res.status(400).json({
+        status: false,
+        message: "userId and otp are required",
+      });
+    }
+
+    const findData = await User.findById(data.userId);
+
+    if (findData && findData.otp === data.otp) {
+      const updateStatus = await User.findByIdAndUpdate(
+        data.userId,
+        {
+          isEmailVerified: true,
+        },
+        {
+          runValidators: true,
+          new: true,
+        }
+      );
+      return res.status(200).json({
+        status: true,
+        message: "User email verified successfully",
+        data: updateStatus,
+      });
+    } else {
+      return res.status(422).json({
+        status: false,
+        message: "Email not verified, invalid OTP",
+      });
+    }
+  } catch (err) {
+    console.error("Error validating OTP:", err);
+    next(err);
+    return res.status(500).json({
+      status: false,
+      message: "Internal server error",
+    });
+  }
+}
