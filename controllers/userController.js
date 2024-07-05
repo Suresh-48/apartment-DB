@@ -224,3 +224,62 @@ export async function validateOtp(req, res, next) {
     });
   }
 }
+
+export async function createUserCredential(req, res, next) {
+  try {
+    const data = req.body;
+
+    const missingFields = [];
+
+    const requiredFields = ["userId", "password", "confirmPassword"];
+
+    for (const field of requiredFields) {
+      if (!data[field]) {
+        missingFields.push(field);
+      }
+    }
+    if (missingFields.length > 0) {
+      return res.status(422).json({
+        status: false,
+        message: `${missingFields} is required fields`,
+      });
+    }
+
+    // Check if password and confirmPassword match
+    if (data.password !== data.confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "Password and confirmPassword do not match",
+      });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(data.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found",
+      });
+    } else {
+      const updateData = await User.findByIdAndUpdate(
+        data.userId,
+        { password: data.password },
+        { runValidators: true, new: true }
+      );
+      // Return success response
+      return res.status(200).json({
+        status: true,
+        message: "Password updated successfully",
+        data: updateData,
+      });
+    }
+  } catch (err) {
+    // Handle errors
+    console.error("Error setting password:", err);
+    return res.status(500).json({
+      status: false,
+      message: "Internal server error",
+    });
+  }
+}
